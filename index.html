@@ -3,43 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open HTML in New Tab</title>
+    <title>Offline File Reader</title>
 </head>
 <body>
-    <h1>Select an HTML file to open in a new tab</h1>
+    <h1>Select an HTML file to read offline</h1>
     <input type="file" id="fileInput" accept=".html">
+    <p>This page works offline after being cached. You can read local HTML files without an internet connection.</p>
 
     <script>
-        // Listen for file selection
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').then(function() {
+                console.log('Service Worker Registered');
+            }).catch(function(error) {
+                console.error('Service Worker registration failed:', error);
+            });
+        }
+
+        // Event listener for file selection
         document.getElementById('fileInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];  // Get the selected file
-            console.log('File selected:', file);
+            const file = event.target.files[0];
 
             if (!file) {
-                alert("No file selected! Please choose an HTML file.");
+                alert("No file selected!");
                 return;
             }
 
-            const reader = new FileReader();  
+            const reader = new FileReader();
 
-            // When the file is read
             reader.onload = function(e) {
-                const fileContents = e.target.result;  // Get the file content
-                //console.log('File contents:', fileContents);  // Log file content for debugging
-                
-                // Open a new blank tab and write the file contents
-                const newTab = window.open();
-                
+                const fileContents = e.target.result;
+
+                // Open a new blank tab and write the file content to it
+                const newTab = window.open('about:blank', '_blank');
                 if (newTab) {
                     newTab.document.open();
-                    newTab.document.write(fileContents); 
+                    newTab.document.write(fileContents);  // Write the HTML content to the new tab
                     newTab.document.close();
                 } else {
                     alert("Popup blocked! Please allow popups for this website.");
                 }
             };
 
-            reader.readAsText(file);
+            reader.readAsText(file);  // Read the file as text
         });
     </script>
 </body>
