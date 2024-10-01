@@ -1,8 +1,8 @@
 const CACHE_NAME = 'offline-cache-v3';
 const URLS_TO_CACHE = [
-    '/',            // Cache the root URL (index.html)
-    './index.html',  // Explicitly cache the main HTML page
-    './service-worker.js',  // Cache the service worker script itself
+    '/html-file-opener/',            // Cache the root URL (index.html)
+    '/html-file-opener/index.html',  // Explicitly cache the main HTML page
+    '/html-file-opener/service-worker.js',  // Cache the service worker script itself
     'https://cdn.jsdelivr.net/npm/eruda',  // Cache Eruda from the CDN
 ];
 
