@@ -49,7 +49,7 @@ self.addEventListener('fetch', function(event) {
             // Otherwise, fetch the request from the network
             return fetch(event.request).catch(function() {
                 // If offline and the request isn't cached, return a fallback page or message
-                return caches.match('/index.html');  // Fallback to index.html for offline users
+                return caches.match('/html-file-opener/index.html');  // Fallback to index.html for offline users
             });
         })
     );
